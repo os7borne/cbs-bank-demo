@@ -1,0 +1,192 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Helper function to check user role
+    function hasRole(role) {
+      return isAuthenticated() && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.roleIds
+        .hasAny([get(/databases/$(database)/documents/roles/$(role)).id]);
+    }
+    
+    // Helper function to check if user is admin
+    function isAdmin() {
+      return isAuthenticated() && 
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.email
+        .matches('admin@.*');
+    }
+
+    // Users collection - users can read their own data, admins can read all
+    match /users/{userId} {
+      allow read: if isAuthenticated() && 
+        (request.auth.uid == userId || isAdmin());
+      allow write: if isAdmin();
+    }
+    
+    // Roles and permissions - readable by all authenticated, writable by admin
+    match /roles/{roleId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+    
+    match /permissions/{permissionId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+
+    // Customers - readable by authenticated users with customer.read permission
+    // For demo: allow all authenticated users
+    match /customers/{customerId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated();
+      allow delete: if isAdmin();
+    }
+    
+    match /customerAddresses/{addressId} {
+      allow read, write: if isAuthenticated();
+    }
+    
+    match /customerContacts/{contactId} {
+      allow read, write: if isAuthenticated();
+    }
+    
+    match /kycRecords/{recordId} {
+      allow read, write: if isAuthenticated();
+    }
+    
+    match /documents/{documentId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    // Accounts - readable by authenticated users
+    match /accounts/{accountId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated();
+      allow delete: if isAdmin();
+    }
+    
+    match /accountHolds/{holdId} {
+      allow read, write: if isAuthenticated();
+    }
+    
+    match /beneficiaries/{beneficiaryId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    // Products - readable by all authenticated, writable by admin
+    match /products/{productId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+    
+    match /interestRateTiers/{tierId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+    
+    match /fees/{feeId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+
+    // GL Accounts and Mappings - readable by all authenticated, writable by admin
+    match /glAccounts/{accountId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+    
+    match /glMappings/{mappingId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+
+    // Journal and Ledger Entries - readable by authenticated, writable by authenticated
+    // In production, write access should be restricted to specific roles
+    match /journalEntries/{entryId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+    
+    match /ledgerEntries/{entryId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update, delete: if isAdmin();
+    }
+    
+    match /journalEntryGl/{entryId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update, delete: if isAdmin();
+    }
+    
+    match /balanceSnapshots/{snapshotId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+
+    // Loans - readable by authenticated users
+    match /loans/{loanId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated();
+      allow delete: if isAdmin();
+    }
+    
+    match /loanSchedules/{scheduleId} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated();
+    }
+    
+    match /loanPayments/{paymentId} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated();
+    }
+
+    // Workflow Requests - readable and writable by authenticated users
+    match /workflowRequests/{requestId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated();
+      allow delete: if isAdmin();
+    }
+
+    // Audit Events - readable by authenticated, writable by system only
+    // In production, this should be server-only writes
+    match /auditEvents/{eventId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update, delete: if isAdmin();
+    }
+
+    // Batch Jobs - readable by all authenticated, writable by admin/operations
+    match /batchJobs/{jobId} {
+      allow read: if isAuthenticated();
+      allow create, update: if isAuthenticated();
+      allow delete: if isAdmin();
+    }
+
+    // Organization
+    match /branches/{branchId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+    
+    match /currencies/{currencyId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+    
+    match /fxRates/{rateId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+  }
+}
