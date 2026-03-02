@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { DemoNotification } from '@/components/demo-notification';
 import { 
   TrendingUp, 
   TrendingDown, 
@@ -90,6 +91,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-6">
+      <DemoNotification />
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
         <p className="text-muted-foreground">
