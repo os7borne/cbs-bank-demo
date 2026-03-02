@@ -16,6 +16,9 @@ export interface User {
 }
 
 const isBuildTime = () => {
+  // In demo mode, never treat as build time - data should be available at runtime
+  if (process.env.DEMO_MODE === 'true') return false;
+  
   return process.env.NEXT_PHASE === 'phase-production-build' ||
          (process.env.NODE_ENV === 'production' && !process.env.FIREBASE_PRIVATE_KEY);
 };

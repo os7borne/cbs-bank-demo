@@ -2,7 +2,7 @@
 
 A comprehensive **Enterprise Core Banking System** demo built with modern web technologies. Features multi-role authentication, customer management, accounts, loans, transactions, operations, and reporting modules.
 
-![Dashboard Screenshot](/dashboard.png)
+![Dashboard Screenshot](https://cbs.osborne.vc/dashboard.png)
 
 ![Demo Screenshot](https://img.shields.io/badge/Demo-Online-green)
 ![Next.js](https://img.shields.io/badge/Next.js-16-black)
