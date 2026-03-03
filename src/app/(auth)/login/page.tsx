@@ -2,12 +2,13 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Landmark, Loader2, User } from 'lucide-react';
+import { Landmark, Loader2, User, Github, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Separator } from '@/components/ui/separator';
 import { toast } from 'sonner';
 
 // Demo mode flag - matches server-side
@@ -147,6 +148,25 @@ export default function LoginPage() {
             ))}
           </div>
           <p className="text-xs text-muted-foreground">Click a role to auto-fill credentials</p>
+          <Separator className="my-2" />
+          <div className="flex items-center justify-center gap-4">
+            <a
+              href="https://github.com/os7borne/cbs-bank-demo"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <Github className="h-3.5 w-3.5" />
+              GitHub
+            </a>
+            <a
+              href="/prompt.md"
+              className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <FileText className="h-3.5 w-3.5" />
+              Prompt
+            </a>
+          </div>
         </CardFooter>
       </Card>
     </div>

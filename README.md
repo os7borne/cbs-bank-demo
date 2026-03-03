@@ -262,6 +262,8 @@ MIT License - Free for personal and commercial use.
 
 ## 🔗 Links
 
+- **Source Code**: [github.com/os7borne/cbs-bank-demo](https://github.com/os7borne/cbs-bank-demo)
+- **Project Prompt**: [prompt.md](./prompt.md)
 - [Next.js Documentation](https://nextjs.org/docs)
 - [shadcn/ui Components](https://ui.shadcn.com/)
 - [Tailwind CSS](https://tailwindcss.com/)

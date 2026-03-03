@@ -20,6 +20,7 @@ import {
   X,
   LogOut,
   User,
+  Github,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -216,7 +217,28 @@ function SidebarContent({ userPermissions, userRoles = [] }: { userPermissions: 
         ))}
       </nav>
       <Separator />
-      <div className="p-3">
+      <div className="p-3 space-y-2">
+        <div className="flex items-center justify-center gap-3">
+          <a
+            href="https://github.com/os7borne/cbs-bank-demo"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+            title="View on GitHub"
+          >
+            <Github className="h-3.5 w-3.5" />
+            <span>GitHub</span>
+          </a>
+          <span className="text-muted-foreground">·</span>
+          <a
+            href="/prompt.md"
+            className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+            title="View Project Prompt"
+          >
+            <FileText className="h-3.5 w-3.5" />
+            <span>Prompt</span>
+          </a>
+        </div>
         <p className="text-xs text-muted-foreground text-center">
           © 2026 India Bank Demo
         </p>
